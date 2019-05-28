@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"go-server/config"
 )
 
 func home(writer http.ResponseWriter, req *http.Request) {
@@ -14,9 +15,13 @@ func ping(writer http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	config, err := config.LoadConfig()
+	if err != nil { panic(err) }
+
 	http.HandleFunc("/", home)
 	http.HandleFunc("/ping", ping)
-	if err := http.ListenAndServe(":3000", nil); err != nil {
+
+	if err = http.ListenAndServe(fmt.Sprintf(":%d", config.Port), nil); err != nil {
 		panic(err)
 	} else {
 		fmt.Printf("Server started!")

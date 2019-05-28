@@ -13,3 +13,6 @@
 
 # SWP Files
 *.swp
+
+# Config Files
+config.*.json
